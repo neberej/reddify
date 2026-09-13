@@ -1,0 +1,191 @@
+/* Present Reddit listing posts as compact preview-and-content rows. */
+/* Define the shared dimensions for thumbnails, metadata, and action controls. */
+.reddify-page-listing {
+  --reddify-listing-preview-width: 78px;
+  --reddify-listing-preview-height: 64px;
+  --reddify-listing-column-gap: 12px;
+  --reddify-listing-meta-height: 20px;
+  --reddify-listing-action-height: 24px;
+  --reddify-listing-action-offset: 5px;
+}
+
+/* Let each native feed article use the available listing width. */
+.reddify-page-listing .reddify-listing-item {
+  width: 100%;
+}
+
+/* Turn each marked Reddit post into the base listing grid. */
+.reddify-page-listing .reddify-listing-post {
+  display: grid !important;
+  grid-template-columns: var(--reddify-listing-preview-width) minmax(0, 1fr);
+  grid-template-rows:
+    auto var(--reddify-listing-meta-height)
+    var(--reddify-listing-action-height);
+  grid-auto-flow: row;
+  align-items: start;
+  column-gap: var(--reddify-listing-column-gap);
+  min-height: var(--reddify-listing-preview-height);
+  margin-block: 0 !important;
+  padding: 8px 12px !important;
+  border-radius: 0 !important;
+}
+
+/* Draw a neutral text tile when Reddit provides no media thumbnail. */
+.reddify-page-listing
+  .reddify-listing-post:not(.reddify-listing-post-has-preview)::before {
+  content: "";
+  display: block;
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  width: var(--reddify-listing-preview-width);
+  height: var(--reddify-listing-preview-height);
+  box-sizing: border-box;
+  border: 1px solid var(--color-neutral-border-weak, #d6d9dc);
+  border-radius: 4px;
+  color: var(--color-neutral-content-weak, #576f76);
+  background:
+    linear-gradient(currentColor 0 0) center 22px / 28px 2px no-repeat,
+    linear-gradient(currentColor 0 0) center 31px / 28px 2px no-repeat,
+    linear-gradient(currentColor 0 0) center 40px / 20px 2px no-repeat,
+    var(--color-neutral-background-weak, #f2f4f5);
+}
+
+/* Flatten Reddit's link-preview wrapper into the post grid. */
+.reddify-page-listing .reddify-listing-link-layout {
+  display: contents !important;
+}
+
+/* Keep the subreddit and timestamp line compact and vertically centered. */
+.reddify-page-listing .reddify-listing-credit-bar,
+.reddify-page-listing .reddify-listing-meta {
+  grid-row: 2;
+  height: var(--reddify-listing-meta-height) !important;
+  min-height: var(--reddify-listing-meta-height) !important;
+  min-width: 0;
+  margin-block: 0 !important;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Place link-preview copy in the right-hand title cell. */
+.reddify-page-listing .reddify-listing-copy {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+}
+
+/* Keep post titles readable within the compact first row. */
+.reddify-page-listing .reddify-listing-title {
+  grid-row: 1;
+  min-width: 0;
+  margin-block: 0 !important;
+  font-size: 15px !important;
+  line-height: 20px !important;
+}
+
+/* Align Reddit's nested title wrapper with the first grid row. */
+.reddify-page-listing .reddify-listing-title-row {
+  grid-row: 1 !important;
+}
+
+/* Align Reddit's nested metadata wrapper with the second grid row. */
+.reddify-page-listing .reddify-listing-meta-row {
+  grid-row: 2 !important;
+  height: var(--reddify-listing-meta-height) !important;
+  min-height: var(--reddify-listing-meta-height) !important;
+  align-items: center !important;
+  overflow: hidden;
+}
+
+/* Move direct title and credit elements beside the preview column. */
+.reddify-page-listing .reddify-listing-credit-bar,
+.reddify-page-listing .reddify-listing-title {
+  grid-column: 2;
+}
+
+/* Place alternate link-preview metadata beside its thumbnail. */
+.reddify-page-listing .reddify-listing-meta {
+  grid-column: 2;
+}
+
+/* Reduce secondary subreddit and timestamp text. */
+.reddify-page-listing .reddify-listing-meta-text {
+  font-size: 11px !important;
+  line-height: 16px !important;
+}
+
+/* Hide credit-bar avatars to keep the metadata baseline compact. */
+.reddify-page-listing .reddify-listing-subreddit-avatar {
+  display: none !important;
+}
+
+/* Hide approved secondary listing controls while retaining their DOM nodes. */
+.reddify-page-listing .reddify-listing-hidden-control {
+  display: none !important;
+}
+
+/* Fit media and link thumbnails into the fixed left column. */
+.reddify-page-listing .reddify-listing-media,
+.reddify-page-listing .reddify-listing-thumbnail-cell {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  align-self: start;
+  width: var(--reddify-listing-preview-width) !important;
+  height: var(--reddify-listing-preview-height) !important;
+  min-height: 0 !important;
+  max-height: var(--reddify-listing-preview-height) !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Collapse Reddit's media frame to the preview dimensions. */
+.reddify-page-listing .reddify-listing-media-frame {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  aspect-ratio: auto !important;
+}
+
+/* Crop native media consistently inside the preview frame. */
+.reddify-page-listing .reddify-listing-media-primary {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  object-fit: cover !important;
+  --gallery-initial-height: var(--reddify-listing-preview-height) !important;
+}
+
+/* Crop video poster slots without changing their native elements. */
+.reddify-page-listing .reddify-listing-media-primary[slot="poster"],
+.reddify-page-listing .reddify-listing-media-primary > [slot="poster"] {
+  object-fit: cover !important;
+}
+
+/* Size alternate link thumbnails to their grid cell. */
+.reddify-page-listing .reddify-listing-thumbnail {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+}
+
+/* Crop link-preview images within the thumbnail wrapper. */
+.reddify-page-listing .reddify-listing-thumbnail img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* Limit text-post excerpts so listing rows remain scannable. */
+.reddify-page-listing .reddify-listing-text-body {
+  grid-column: 2;
+  max-height: 4.5em;
+  overflow: hidden;
+}
+
+/* Match all credit links to the compact metadata typography. */
+.reddify-page-listing .reddify-listing-credit-bar a {
+  font-size: 11px !important;
+  line-height: 16px !important;
+}

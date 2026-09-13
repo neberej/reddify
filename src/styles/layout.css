@@ -1,0 +1,22 @@
+/* Remove sidebar columns and let Reddit's primary content fill the page. */
+.reddify-hidden-left-sidebar,
+.reddify-hidden-right-sidebar,
+.reddify-hidden-right-sidebar-contents {
+  display: none !important;
+}
+
+.reddify-page-grid {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+.reddify-subgrid-container {
+  grid-column: 1 !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.reddify-main-container {
+  grid-template-columns: minmax(0, 1fr) !important;
+  width: 100% !important;
+  max-width: none !important;
+}

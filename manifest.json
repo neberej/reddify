@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "Reddify",
+  "version": "0.4.3",
+  "description": "A compact, content-first layout for www.reddit.com.",
+  "icons": {
+    "16": "assets/icons/reddify-16.png",
+    "32": "assets/icons/reddify-32.png",
+    "48": "assets/icons/reddify-48.png",
+    "96": "assets/icons/reddify-96.png",
+    "128": "assets/icons/reddify-128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "reddify@nt",
+      "strict_min_version": "153.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.reddit.com/*"],
+      "css": [
+        "src/styles/layout.css",
+        "src/styles/listing.css",
+        "src/styles/comments.css"
+      ],
+      "js": [
+        "src/config/selectors.js",
+        "src/content/page-scope.js",
+        "src/content/style-listing-shadow.js",
+        "src/content/apply-markers.js",
+        "src/content/disable-listing-autoplay.js",
+        "src/content/observe-layout.js",
+        "src/content/bootstrap.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

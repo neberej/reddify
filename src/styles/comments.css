@@ -1,0 +1,5 @@
+/* Tighten paragraph rhythm inside Reddit comment bodies. */
+.reddify-page-comments .reddify-comment-body p {
+  margin-block: 0 !important;
+}
+
